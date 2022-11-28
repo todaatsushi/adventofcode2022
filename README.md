@@ -10,11 +10,11 @@
 ## How to set up a Python 3 project
 ### Install Python
  - Install [pyenv](https://github.com/pyenv/pyenv)
- - `pyenv install 3.XX.XX` where XX is the version (see `pyenv install --list`)
- - `python shell 3.XX.XX` where XX is the version installed
+ - `pyenv install 3.10.7` where XX is the version (see `pyenv install --list`)
+ - `python shell 3.10.7` where XX is the version installed
 
 ### Create venv
- - `python --version` - confirm it's 3.XX.XX
+ - `python --version` - confirm it's 3.10.7
  - `python -m venv .venv`
  - `source .venv/bin/activate` - `(.venv)` should appear in the terminal before your directory name.
  - `pip install -r requirements.txt`
