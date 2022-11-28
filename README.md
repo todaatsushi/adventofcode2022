@@ -5,6 +5,8 @@
 
 `main` isn't protected so you can commit directly, or create branches & open PRs.
 
+`.venv` is configured at a repo level.
+
 ## How to set up a Python 3 project
 ### Install Python
  - Install [pyenv](https://github.com/pyenv/pyenv)
@@ -15,6 +17,7 @@
  - `python --version` - confirm it's 3.XX.XX
  - `python -m venv .venv`
  - `source .venv/bin/activate` - `(.venv)` should appear in the terminal before your directory name.
+ - `pip install -r requirements.txt`
 
 ###  Running a script
  - `python ./path/to/file`
