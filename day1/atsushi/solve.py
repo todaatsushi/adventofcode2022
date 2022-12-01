@@ -8,6 +8,7 @@ def solve(path: str) -> None:
 
     elves = [models.ElfPack.new(food) for food in total_food_items]
     print("Part 1:", models.ElfPack.largest_calorie_total(elves))
+    print("Part 2:", models.ElfPack.largest_calorie_total(elves, 3))
 
 
 if __name__ == "__main__":

@@ -13,5 +13,8 @@ class ElfPack:
         return cls(calories=calories, total=sum(calories))
 
     @staticmethod
-    def largest_calorie_total(elves: list[ElfPack]) -> int:
-        return max([elf.total for elf in elves])
+    def largest_calorie_total(elves: list[ElfPack], num_elves: int = 1) -> int:
+        by_total_calories = [
+            elf.total for elf in sorted(elves, key=lambda elf: elf.total, reverse=True)
+        ]
+        return sum(by_total_calories[:num_elves])
