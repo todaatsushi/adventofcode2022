@@ -9,5 +9,5 @@ def read_input(path: str) -> list[list[int]]:
             else:
                 raw_data.append(elf_inventory)
                 elf_inventory = []
-
+    raw_data.append(elf_inventory)
     return raw_data
