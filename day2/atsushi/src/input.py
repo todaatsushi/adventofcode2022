@@ -1,12 +1,17 @@
 from src import models
 
 
-def _parse_round(line: str) -> tuple[models.Throw, models.Throw]:
+def _parse_round(
+    line: str, part: int
+) -> tuple[models.Throw, models.Throw | models.Result]:
     opp, player = line.split(" ")
-    return models.Throw[opp], models.Throw[player]
+    return (
+        models.Throw[opp],
+        models.Throw[player] if part == 1 else models.Result[player],
+    )
 
 
-def parse(file: str) -> list[tuple[models.Throw, models.Throw]]:
+def parse(file: str, part: int) -> list[tuple[models.Throw, models.Throw]]:
     rounds = []
     with open(file, "r") as f:
         lines = f.readlines()
@@ -16,6 +21,6 @@ def parse(file: str) -> list[tuple[models.Throw, models.Throw]]:
             if not line:
                 continue
 
-            round = _parse_round(line)
+            round = _parse_round(line, part)
             rounds.append(round)
     return rounds
