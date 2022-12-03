@@ -1,3 +1,9 @@
+use atsushi::input::read_file;
+
 fn main() {
-    println!("Hello, world!");
+    let rucksacks = read_file();
+
+    for r in rucksacks {
+        println!("{:?}", r);
+    }
 }
