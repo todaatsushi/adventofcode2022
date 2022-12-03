@@ -1,4 +1,12 @@
-use std::{result::Result, str::FromStr, string::ParseError};
+use std::{collections::HashSet, result::Result, str::FromStr, string::ParseError};
+
+pub fn get_score(c: char) -> u32 {
+    let index = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        .find(c)
+        .unwrap() as u32;
+
+    index + 1
+}
 
 #[derive(Debug)]
 pub struct Rucksack {
@@ -21,14 +29,6 @@ impl FromStr for Rucksack {
 }
 
 impl Rucksack {
-    fn get_score(&self, c: char) -> u32 {
-        let index = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            .find(c)
-            .unwrap() as u32;
-
-        index + 1
-    }
-
     fn split_items_into_compartments(&self) -> [String; 2] {
         let s = &self.items;
         let index = s.chars().count() / 2;
@@ -53,6 +53,6 @@ impl Rucksack {
 
     pub fn get_missing_item_score(self: &Self) -> u32 {
         let common_item = self.find_common_item_in_rucksack_compartments().unwrap();
-        self.get_score(common_item)
+        get_score(common_item)
     }
 }
