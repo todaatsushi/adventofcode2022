@@ -9,7 +9,6 @@ enum InputError {
 
 fn read_input() -> Lines<'static> {
     let args: Vec<String> = env::args().collect();
-    println!("{:?}", args);
     let lines = match args.len() as u8 {
         3 => match args[2].as_str() {
             "test" => Ok(include_str!("../inputs/test.txt")),
