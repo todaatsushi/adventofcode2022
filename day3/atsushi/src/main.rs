@@ -1,3 +1,4 @@
+use atsushi::data::get_common_items_in_rucksack_intervals;
 use std::env;
 
 use atsushi::input::read_file;
@@ -19,7 +20,8 @@ fn main() {
             }
         }
         2 => {
-            panic!("TODO")
+            let total = get_common_items_in_rucksack_intervals(rucksacks, 3);
+            println!("Part2 total of common items: {}", total)
         }
         _ => panic!("Has to be 1 or 2"),
     }
