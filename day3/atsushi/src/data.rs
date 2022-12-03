@@ -2,7 +2,7 @@ use std::{result::Result, str::FromStr, string::ParseError};
 
 #[derive(Debug)]
 pub struct Rucksack {
-    compartments: [String; 2],
+    items: String,
 }
 
 #[derive(Debug)]
@@ -14,12 +14,8 @@ impl FromStr for Rucksack {
     type Err = ParseError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let index = s.chars().count() / 2;
-        let first = s[..index].to_string();
-        let second = s[index..].to_string();
-
         Ok(Rucksack {
-            compartments: [first, second],
+            items: s.to_string(),
         })
     }
 }
@@ -33,9 +29,19 @@ impl Rucksack {
         index + 1
     }
 
-    fn find_common_item(&self) -> Result<char, RucksackErr> {
-        let first = self.compartments[0].chars();
-        let second = &self.compartments[1];
+    fn split_items_into_compartments(&self) -> [String; 2] {
+        let s = &self.items;
+        let index = s.chars().count() / 2;
+        let first = s[..index].to_string();
+        let second = s[index..].to_string();
+
+        [first, second]
+    }
+
+    fn find_common_item_in_rucksack_compartments(&self) -> Result<char, RucksackErr> {
+        let compartments = self.split_items_into_compartments();
+        let first = compartments[0].chars();
+        let second = &compartments[1];
 
         for c in first {
             if second.contains(c) {
@@ -46,7 +52,7 @@ impl Rucksack {
     }
 
     pub fn get_missing_item_score(self: &Self) -> u32 {
-        let common_item = self.find_common_item().unwrap();
+        let common_item = self.find_common_item_in_rucksack_compartments().unwrap();
         self.get_score(common_item)
     }
 }
