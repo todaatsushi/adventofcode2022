@@ -4,7 +4,7 @@ import os
 # path = os.path.join(os.path.dirname(__file__), './sample.csv')
 path = os.path.join(os.path.dirname(__file__), './data.csv')
 with open(path,"r") as f:
-    raw_data = f.read().splitlines()
+    data = f.read().splitlines()
 
 # Lowercase item types a through z have priorities 1 through 26.
 # Uppercase item types A through Z have priorities 27 through 52.
@@ -63,23 +63,56 @@ priority = {
     'Z' : 52
 }
 
-# raw_data = ['bjgGqQGbQnjGQgnQgbGgjJnDLHLdfPVtdDmLZdBFVVZttdTf']
-# raw_data = ['jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL', 'bjgGqQGbQnjGQgnQgbGgjJnDLHLdfPVtdDmLZdBFVVZttdTf']
-# print(raw_data)
-bag = []
-for content in raw_data:
-    if (len(content) % 2) == 0:
-        split_location = int(len(content)/2)
-        first_compartment = set(content[:split_location])
-        second_compartment = set(content[split_location:])
-        common_character = first_compartment.intersection(second_compartment)
-        bag.append(''.join(common_character)) #return a string of the common character
-    else:
-        print('error')
+# # Part 1: find the common character between the two halves of string
+# bag = []
+# for content in data:
+#     if (len(content) % 2) == 0:
+#         split_location = int(len(content)/2)
+#         first_compartment = set(content[:split_location])
+#         second_compartment = set(content[split_location:])
+#         common_character = first_compartment.intersection(second_compartment)
+#         bag.append(''.join(common_character)) #return a string of the common character
+#     else:
+#         print('error')
+#
+# priority_list = []
+# for i in bag:
+#     priority_list.append(priority[i])
+#
+# print(sum(priority_list))
 
-print(bag)
+# Part 2: find the common character between every three strings
+input = [[]]
+counter = 1
+while counter < 6:
+    for i in data:
+        if counter % 3 == 0:
+            input[-1].append(i)
+            counter += 1
+            # input.append([])
+            if counter == len(data)+1:
+                break
+            else:
+                input.append([])
+        else:
+            input[-1].append(i)
+            counter += 1
+            if counter == len(data)+1:
+                break
+
+part2_bag =[]
+for elf_group in input:
+    first_elf = set(elf_group[0])
+    second_elf = set(elf_group[1])
+    third_elf = set(elf_group[2])
+    common_character_first_and_second_elf = first_elf.intersection(second_elf)
+    common_character_all_elves = common_character_first_and_second_elf.intersection(third_elf)
+    part2_bag.append(''.join(common_character_all_elves))
+
+print(part2_bag)
+
 priority_list = []
-for i in bag:
+for i in part2_bag:
     priority_list.append(priority[i])
 
 print(sum(priority_list))
