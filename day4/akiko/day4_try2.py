@@ -20,6 +20,10 @@ def split_on_hyphen(input):
 def contains(a, b):
     return b[0] >= a[0] and b[1] <= a[1]
 
+def overlaps(a, b):
+    return (a[1] >= b[0] and a[0] < b[1]) or (b[1] >= a[0] and b[0] < a[1])
+
+
 # path = os.path.join(os.path.dirname(__file__), './sample.csv')
 path = os.path.join(os.path.dirname(__file__), './data.csv')
 with open(path,"r") as f:
@@ -33,12 +37,31 @@ for i in input_split_on_comma:
     input_split_on_hyphen = split_on_hyphen(i)
     data.append(input_split_on_hyphen)
 
-print(data)
+# print(data)
 
+# Part 1: fully contained
 counter = 0
+# for i in data:
+#     a = i[0]
+#     b = i[1]
+#     if contains(a,b) or contains(b,a):
+#         counter += 1
+# print(counter)
+
+# Part 2: overlap
 for i in data:
     a = i[0]
     b = i[1]
-    if contains(a,b) or contains(b,a):
+    if overlaps(a,b) or overlaps(b,a):
         counter += 1
 print(counter)
+
+# a = [2,4]
+# b = [6,8]
+# print(overlaps(a,b))
+
+# 1 2 3 4 5 6 7 8
+# x 2 3 4 x x x x x 10 11 12
+# x x x x x 6 7 8 x xx xx xx
+#
+# a[1] < b[0] or a[0] < b[1]
