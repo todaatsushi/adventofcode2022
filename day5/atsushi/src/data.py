@@ -48,3 +48,7 @@ class Stack:
         while self.items[move.from_stack] and to_move:
             self.items[move.to_stack].append(self.items[move.from_stack].pop())
             to_move -= 1
+
+    @property
+    def top_crates(self) -> str:
+        return "".join([s[-1] for s in self.items])

@@ -9,3 +9,5 @@ if __name__ == "__main__":
 
     for move in moves:
         stack.apply(move)
+
+    print(f"Part 1: {stack.top_crates}")
