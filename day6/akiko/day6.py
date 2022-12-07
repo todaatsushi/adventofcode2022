@@ -3,6 +3,10 @@ def check_for_four_distinct_letters(four_letters):
     marker_set = set(four_letters)
     return len(marker_set) == 4
 
+def check_for_distinct_letters(four_letters, number):
+    marker_set = set(four_letters)
+    return len(marker_set) == number
+
 def make_four_letter_string(input_string):
     four_letter_string = input_string[0:4]
     return four_letter_string
@@ -32,3 +36,4 @@ while counter in range(1,len(data)):
 marker_location = counter + 3
 
 print(four_letter_string, marker_location)
+
