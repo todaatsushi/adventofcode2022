@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections import deque
+
 import dataclasses
 
 
@@ -43,11 +45,19 @@ class Stack:
                 col_num += 1
         return stack
 
-    def apply(self, move: Move) -> None:
-        to_move = move.num
-        while self.items[move.from_stack] and to_move:
-            self.items[move.to_stack].append(self.items[move.from_stack].pop())
-            to_move -= 1
+    def apply(self, move: Move, is_9001: bool = False) -> None:
+        while self.items[move.from_stack] and move.num:
+            if is_9001:
+                to_apply = deque()
+                for _ in range(move.num):
+                    to_apply.appendleft(self.items[move.from_stack].pop())
+                to_apply = list(to_apply)
+                move.num = 0
+            else:
+                to_apply = [self.items[move.from_stack].pop()]
+                move.num -= 1
+
+            self.items[move.to_stack].extend(to_apply)
 
     @property
     def top_crates(self) -> str:
