@@ -42,3 +42,9 @@ class Stack:
                 end = start + 3
                 col_num += 1
         return stack
+
+    def apply(self, move: Move) -> None:
+        to_move = move.num
+        while self.items[move.from_stack] and to_move:
+            self.items[move.to_stack].append(self.items[move.from_stack].pop())
+            to_move -= 1
