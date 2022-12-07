@@ -1,21 +1,34 @@
-data = 'mjqjpqmgbljsphdztnvjfqwrcgsmlb'
+import os
+def check_for_four_distinct_letters(four_letters):
+    marker_set = set(four_letters)
+    return len(marker_set) == 4
 
-marker_list = ''
-for i in data:
-    # i = 'm'
-    print(i)
-    if len(marker_list) == 4:
-        marker_set = set(marker_list)
-        if len(marker_set) == 4:
-            print('hello')
-            break
-    
+def make_four_letter_string(input_string):
+    four_letter_string = input_string[0:4]
+    return four_letter_string
+
+def remove_first_character_from_string(input_string):
+    new_string = input_string[1:]
+    return new_string
+
+path = os.path.join(os.path.dirname(__file__), './data.csv')
+with open(path,"r") as f:
+    data = f.read()
+
+counter = 1
+while counter in range(1,len(data)):
+    if counter == 1:
+        four_letter_string = make_four_letter_string(data)
     else:
-        marker_list = marker_list + i
-    # print(marker_list)break 
+        data = remove_first_character_from_string(data)
+        four_letter_string = make_four_letter_string(data)
 
-print(marker_set)
+    answer = check_for_four_distinct_letters(four_letter_string)
+    if answer == True:
+        break
+    counter += 1
 
-# start with empty string
-# append letters from input
-# when length of string is 4, check to see that 
+# Part 1
+marker_location = counter + 3
+
+print(four_letter_string, marker_location)
