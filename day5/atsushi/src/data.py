@@ -12,7 +12,7 @@ class Move:
     @classmethod
     def new(cls, line: str) -> Move:
         parts = line.strip().split(" ")
-        return Move(int(parts[3]), int(parts[-1]), int(parts[1]))
+        return Move(int(parts[3]) - 1, int(parts[-1]) - 1, int(parts[1]))
 
 
 class Stack:
