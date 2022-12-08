@@ -1,5 +1,6 @@
 import sys
-from src import input
+
+from src import input, search
 
 if __name__ == "__main__":
     file = sys.argv[1]
@@ -7,5 +8,7 @@ if __name__ == "__main__":
 
     if part == 1:
         map = input.load(file)
-
-    print(f"Part {part}: {file}")
+        total = search.find_num_visible_trees(map)
+    else:
+        raise NotImplementedError
+    print(f"Part {part}: {total}")

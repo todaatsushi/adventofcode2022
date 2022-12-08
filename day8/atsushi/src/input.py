@@ -1,4 +1,11 @@
-def load(file: str) -> list[list[int]]:
+from typing import TypeAlias
+
+import numpy as np
+
+Map: TypeAlias = np.ndarray
+
+
+def load(file: str) -> Map:
     with open(file, "r") as f:
         lines = f.read().splitlines()
 
@@ -7,4 +14,4 @@ def load(file: str) -> list[list[int]]:
         line = list(line.strip())
         map.append([int(c) for c in line if c])
 
-    return map
+    return np.array(map)
