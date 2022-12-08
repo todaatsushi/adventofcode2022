@@ -3,6 +3,14 @@ from __future__ import annotations
 import dataclasses
 
 
+def _less_than_or_equal(a, b) -> bool:
+    return a <= b
+
+
+def _more_than_or_equal(a, b) -> bool:
+    return a >= b
+
+
 @dataclasses.dataclass
 class File:
     name: str
@@ -29,14 +37,17 @@ class Folder:
         self.size = total
         return self.size
 
-    def get_folders_with_max_size(
-        self, size: int, folders: set[tuple[str, int]]
+    def get_folders_with_size_threshold(
+        self, size: int, folders: set[tuple[str, int]], need_above_size: bool
     ) -> set[tuple[str, int]]:
-        if self.size and self.size <= size:
+        f = _more_than_or_equal if need_above_size else _less_than_or_equal
+        if self.size and f(self.size, size):
             folders.add((self.name, self.size))
 
         for item in self.contents.values():
             if isinstance(item, Folder):
-                folders = folders.union(item.get_folders_with_max_size(size, folders))
+                folders = folders.union(
+                    item.get_folders_with_size_threshold(size, folders, need_above_size)
+                )
 
         return folders
