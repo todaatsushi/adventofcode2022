@@ -1,3 +1,5 @@
+import os
+
 def extract_row(grid, location):
     return grid[location]
 
@@ -51,14 +53,26 @@ def is_tree_visible_vertically(grid, row_index, column_index):
 def is_tree_visible(grid, row_index, column_index):
     return is_tree_visible_horizontally(grid, row_index, column_index) or is_tree_visible_vertically(grid, row_index, column_index)
 
+# path = os.path.join(os.path.dirname(__file__), './sample.csv')
+path = os.path.join(os.path.dirname(__file__), './data.csv')
+with open(path,"r") as f:
+    input = f.read().splitlines()
 
-grid = [
-    [3,0,3,7,3],
-    [2,5,5,1,2],
-    [6,5,3,3,2],
-    [3,3,5,4,9],
-    [3,5,3,9,0]
-]
+grid = []
+for row in input:
+    # row = '30373'
+    grid.append([])
+    for tree in row:
+        # tree = '3'
+        grid[-1].append(int(tree))
+
+# grid = [
+#     [3,0,3,7,3],
+#     [2,5,5,1,2],
+#     [6,5,3,3,2],
+#     [3,3,5,4,9],
+#     [3,5,3,9,0]
+# ]
 
 counter = 0
 for row_index in range(0, len(grid)): 
