@@ -36,6 +36,13 @@ def num_trees_taller_up(grid, row, col, starting_tree_height):
         return 1
     return 1 + num_trees_taller_up(grid, row, col-1, starting_tree_height)
 
+def scenic_score(grid, row, col):
+    right = num_trees_taller_to_right(grid, row, col, grid[col][row])
+    left = num_trees_taller_to_left(grid, row, col, grid[col][row])
+    down = num_trees_taller_down(grid, row, col, grid[col][row])
+    up = num_trees_taller_up(grid, row, col, grid[col][row])
+    return right * left * down * up
+
 # path = os.path.join(os.path.dirname(__file__), './sample.csv')
 path = os.path.join(os.path.dirname(__file__), './data.csv')
 with open(path,"r") as f:
@@ -57,8 +64,7 @@ for row in input:
 # row = 2
 # col = 2
 
-def scenic_score(grid, row, col):
-    return num_trees_taller_to_right(grid, row, col, grid[col][row])  * num_trees_taller_to_left(grid, row, col, grid[col][row]) * num_trees_taller_down(grid, row, col, grid[col][row]) * num_trees_taller_up(grid, row, col, grid[col][row])
+
 
 
 scenic_score_log = []
