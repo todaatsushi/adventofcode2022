@@ -166,3 +166,4 @@ for row_index in range(0, len(grid)):
         scenic_score_log.append(scenic_score(grid, row_index, col_index))
 
 print(max(scenic_score_log))
+# 252000
