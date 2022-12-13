@@ -93,6 +93,7 @@ def move_head_one_down(head, tail):
         tail[1] -= 1        
     head[1] -= 1
 
+# Part 1: Tail follows the head
 head = [0,0]
 tail = [0,0]
 tail_set = set()
@@ -115,3 +116,5 @@ for instruction in instructions:
             tail_set.add(str(tail))
 
 print(len(tail_set))
+
+# Part 2: There are now 10 knots (head+9 knots), tail is knot 9
