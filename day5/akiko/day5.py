@@ -53,32 +53,22 @@ stacks = {
 }
 
 # Part 1: Find the top crates
-# for every_step in instructions:
-#     loop_count = every_step[0]
-#     original_stack = every_step[1]
-#     destination_stack = every_step[2]
-#     for i in range(1, int(loop_count)+1):
-#         move_top_crate_from_origin_stack_to_destination_stack(stacks, original_stack, destination_stack)
+for every_step in instructions:
+    loop_count = every_step[0]
+    original_stack = every_step[1]
+    destination_stack = every_step[2]
+    for i in range(1, int(loop_count)+1):
+        move_top_crate_from_origin_stack_to_destination_stack(stacks, original_stack, destination_stack)
 
-# top_crates = ''
-# for every_column in stacks:
-#     max_index = len(stacks[every_column])-1
-#     top_crate = stacks[every_column][max_index]
-#     top_crates+=top_crate
-# print(top_crates)
+top_crates = ''
+for every_column in stacks:
+    max_index = len(stacks[every_column])-1
+    top_crate = stacks[every_column][max_index]
+    top_crates+=top_crate
+print(top_crates)
 
 # Part 2: CrateMover 9001
 # Retain the order, can't use pop
-
-# instructions = [['1', '2', '1'], ['3', '1', '3'], ['2', '2', '1'], ['1', '1', '2']]
-# # instruction = ['1', '2', '1']
-# stacks = {
-#     '1' : ['Z', 'N'],
-#     '2' : ['M', 'C', 'D'],
-#     '3' : ['P']
-# }
-
-
 for every_step in instructions:
     # every_step = ['1', '2', '1']
     cratemover9001(stacks, every_step)
