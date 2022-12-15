@@ -30,6 +30,26 @@ class Knot:
 class Tail(Knot):
     visited: set[Coordinate]
 
+    def __init__(self, position: Coordinate) -> None:
+        super().__init__(position)
+        self.visited: set[Coordinate] = {position}
+
+    def should_move(self, head: "Head") -> bool:
+        x_diff = abs(self.position[0] - head.position[0])
+        y_diff = abs(self.position[1] - head.position[1])
+        return x_diff > 1 or y_diff > 1
+
+    def adjust(self, head: "Head", direction: Direction) -> None:
+        if not self.should_move(head):
+            return
+
+        modifier = MODIFIERS[direction]
+        self.position = (
+            head.position[0] - modifier[0],
+            head.position[1] - modifier[1],
+        )
+        self.visited.add(self.position)
+
 
 class Head(Knot):
     tail: Tail
@@ -46,4 +66,5 @@ class Head(Knot):
                 self.position[0] + modifier[0],
                 self.position[1] + modifier[1],
             )
+            self.tail.adjust(self, direction)
             distance -= 1
