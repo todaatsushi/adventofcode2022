@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import enum
 from typing import TypeAlias
 
@@ -29,24 +31,25 @@ class Knot:
 
 class Tail(Knot):
     visited: set[Coordinate]
+    tail: "Tail" | None = None
 
     def __init__(self, position: Coordinate) -> None:
         super().__init__(position)
         self.visited: set[Coordinate] = {position}
 
-    def should_move(self, head: "Head") -> bool:
-        x_diff = abs(self.position[0] - head.position[0])
-        y_diff = abs(self.position[1] - head.position[1])
+    def should_move(self, knot: Knot) -> bool:
+        x_diff = abs(self.position[0] - knot.position[0])
+        y_diff = abs(self.position[1] - knot.position[1])
         return x_diff > 1 or y_diff > 1
 
-    def adjust(self, head: "Head", direction: Direction) -> None:
-        if not self.should_move(head):
+    def adjust(self, knot: Knot, direction: Direction) -> None:
+        if not self.should_move(knot):
             return
 
         modifier = MODIFIERS[direction]
         self.position = (
-            head.position[0] - modifier[0],
-            head.position[1] - modifier[1],
+            knot.position[0] - modifier[0],
+            knot.position[1] - modifier[1],
         )
         self.visited.add(self.position)
 
@@ -54,9 +57,18 @@ class Tail(Knot):
 class Head(Knot):
     tail: Tail
 
-    def __init__(self, position: Coordinate) -> None:
+    def __init__(self, position: Coordinate, num_tails: int) -> None:
         super().__init__(position)
-        self.tail = Tail(position)
+
+        if num_tails:
+            self.tail = Tail(position)
+            to_add = num_tails - 1
+            current = self.tail
+
+            while to_add:
+                current.tail = Tail(position)
+                current = current.tail
+                to_add -= 1
 
     def move(self, direction: Direction, distance: int) -> None:
         modifier = MODIFIERS[direction]
