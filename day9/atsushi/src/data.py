@@ -29,21 +29,44 @@ class Tail(Knot):
         super().__init__(position)
         self.visited: set[Coordinate] = {position}
 
-    def should_move(self, knot: Knot) -> bool:
-        x_diff = abs(self.position[0] - knot.position[0])
-        y_diff = abs(self.position[1] - knot.position[1])
-        return x_diff > 1 or y_diff > 1
+    def get_distance_between(self, knot: Knot) -> tuple[int, int]:
+        x_diff = knot.position[0] - self.position[0]
+        y_diff = knot.position[1] - self.position[1]
+        return x_diff, y_diff
 
-    def adjust(self, knot: Knot, direction: Direction) -> None:
+    def should_move(self, knot: Knot) -> bool:
+        x, y = self.get_distance_between(knot)
+        return abs(x) > 1 or abs(y) > 1
+
+    def get_modified_coords(self, knot: Knot) -> tuple[int, int]:
+        x, y = self.get_distance_between(knot)
+        if x > 0:
+            x = -1
+        elif x < 0:
+            x = 1
+
+        if y > 0:
+            y = -1
+        elif y < 0:
+            y = 1
+
+        if 0 in {x, y}:
+            # If a 1d move, "snap" self to the leading knot
+            return (knot.position[0] + x, knot.position[1] + y)
+        else:
+            # If diagonal, move the knot diagonally
+            return (self.position[0] - x, self.position[1] - y)
+
+    def adjust(self, knot: Knot) -> None:
         if not self.should_move(knot):
             return
 
-        modifier = MODIFIERS[direction]
-        self.position = (
-            knot.position[0] - modifier[0],
-            knot.position[1] - modifier[1],
-        )
+        coords = self.get_modified_coords(knot)
+        self.position = (coords[0], coords[1])
         self.visited.add(self.position)
+
+        if self.tail:
+            self.tail.adjust(self)
 
 
 class Head(Knot):
@@ -76,5 +99,5 @@ class Head(Knot):
                 self.position[0] + modifier[0],
                 self.position[1] + modifier[1],
             )
-            self.tail.adjust(self, direction)
+            self.tail.adjust(self)
             distance -= 1
