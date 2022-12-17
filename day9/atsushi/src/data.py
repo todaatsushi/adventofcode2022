@@ -14,14 +14,6 @@ class Direction(enum.Enum):
     LEFT = "L"
 
 
-MODIFIERS = {
-    Direction.RIGHT: (1, 0),
-    Direction.LEFT: (-1, 0),
-    Direction.DOWN: (0, -1),
-    Direction.UP: (0, 1),
-}
-
-
 class Knot:
     position: Coordinate
 
@@ -57,6 +49,13 @@ class Tail(Knot):
 class Head(Knot):
     tail: Tail
 
+    MODIFIERS = {
+        Direction.RIGHT: (1, 0),
+        Direction.LEFT: (-1, 0),
+        Direction.DOWN: (0, -1),
+        Direction.UP: (0, 1),
+    }
+
     def __init__(self, position: Coordinate, num_tails: int) -> None:
         super().__init__(position)
 
@@ -71,8 +70,7 @@ class Head(Knot):
                 to_add -= 1
 
     def move(self, direction: Direction, distance: int) -> None:
-        modifier = MODIFIERS[direction]
-
+        modifier = self.MODIFIERS[direction]
         while distance > 0:
             self.position = (
                 self.position[0] + modifier[0],
