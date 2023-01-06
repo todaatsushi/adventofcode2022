@@ -1,6 +1,6 @@
 import pytest
 
-from src import input, data
+from src import data, input
 
 
 @pytest.mark.parametrize(
@@ -21,13 +21,21 @@ def test_program(round: int, expected_register: int) -> None:
     assert program.history[round] == expected_register
 
 
-def test_rounds() -> None:
+@pytest.mark.parametrize(
+    "round, applying, to_apply",
+    (
+        (0, data.Command.NOOP, [0]),
+        (1, data.Command.ADDX, []),
+        (2, data.Command.ADDX, [3]),
+        (3, data.Command.ADDX, []),
+        (4, data.Command.ADDX, [-5]),
+    ),
+)
+def test_rounds(round: int, applying: data.Command | None, to_apply: list[int]) -> None:
     program = input.load("inputs/dev.txt")
+    rounds = program.rounds
+    r = rounds[round]
 
-    assert len(program.rounds) == 5
-
-    assert program.rounds[0].applying == data.Command.NOOP
-    assert program.rounds[1].applying == data.Command.ADDX
-    assert program.rounds[2].applying == data.Command.ADDX
-    assert program.rounds[3].applying == data.Command.ADDX
-    assert program.rounds[4].applying == data.Command.ADDX
+    assert len(rounds) == 5
+    assert r.to_apply == to_apply
+    assert r.applying == applying
