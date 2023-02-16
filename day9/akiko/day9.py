@@ -6,6 +6,21 @@ import os
 # x = head[0]
 # y = head[1]
 
+def split_on_whitespace(input):
+    x = []
+    for i in input:
+        delimitted = i.split(' ')
+        x.append(delimitted)
+    return x
+
+# Import the instructions file
+# path = os.path.join(os.path.dirname(__file__), './sample.csv')
+path = os.path.join(os.path.dirname(__file__), './data.csv')
+with open(path,"r") as f:
+    input = f.read().splitlines()
+instructions = split_on_whitespace(input)
+# instructions = [['R', '4'], ['U', '4'], ['L', '3'], ['D', '1'], ['R', '4'], ['D', '1'], ['L', '5'], ['R', '2']]
+
 def head_is_same_as_tail(head, tail):
     return head[0] == tail[0] and head[1] == tail[1]
 
@@ -78,19 +93,28 @@ def move_head_one_down(head, tail):
         tail[1] -= 1        
     head[1] -= 1
 
-
-instruction = ['R', '4']
+# Part 1: Tail follows the head
 head = [0,0]
 tail = [0,0]
-loop_count = int(instruction[1])+1
-for i in range(1, loop_count):
-    if instruction[0] == 'R':
-        move_head_one_right(head, tail)
-    if instruction[0] == 'L':
-        move_head_one_left(head, tail)
-    if instruction[0] == 'U':
-        move_head_one_up(head, tail)
-    if instruction[0] == 'D':
-        move_head_one_down(head, tail)
+tail_set = set()
 
-print(head, tail)
+for instruction in instructions:
+    # instruction = ['R', '4']
+    loop_count = int(instruction[1])+1
+    for i in range(1, loop_count):
+        if instruction[0] == 'R':
+            move_head_one_right(head, tail)
+            tail_set.add(str(tail))
+        if instruction[0] == 'L':
+            move_head_one_left(head, tail)
+            tail_set.add(str(tail))
+        if instruction[0] == 'U':
+            move_head_one_up(head, tail)
+            tail_set.add(str(tail))
+        if instruction[0] == 'D':
+            move_head_one_down(head, tail)
+            tail_set.add(str(tail))
+
+print(len(tail_set))
+
+# Part 2: There are now 10 knots (head+9 knots), tail is knot 9
