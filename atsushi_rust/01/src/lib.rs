@@ -1,5 +1,8 @@
 use std::{env, fs};
 
+use std::str::FromStr;
+use std::string::ParseError;
+
 #[derive(Debug)]
 enum InputError {
     InvalidArgs,
@@ -25,7 +28,36 @@ fn get_file() -> Result<&'static str, InputError> {
     }
 }
 
-pub fn load_data() -> String {
+#[derive(Debug)]
+pub struct Elf {
+    pub total_calories: u32,
+}
+
+impl FromStr for Elf {
+    type Err = ParseError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let total: u32 = s
+            .split("\n")
+            .map(|v| v.parse::<u32>().unwrap())
+            .reduce(|a, v| a + v)
+            .unwrap();
+
+        Ok(Self {
+            total_calories: total,
+        })
+    }
+}
+
+pub fn load_data() -> Vec<Elf> {
     let file = get_file().unwrap().to_string();
-    fs::read_to_string(file).expect("Couldn't read file")
+    let content = fs::read_to_string(file).expect("Couldn't read file");
+
+    let elves: Vec<Elf> = content
+        .trim()
+        .split("\n\n")
+        .map(str::parse)
+        .map(Result::unwrap)
+        .collect();
+    elves
 }
