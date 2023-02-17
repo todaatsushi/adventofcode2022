@@ -25,8 +25,7 @@ fn get_file() -> Result<&'static str, InputError> {
     }
 }
 
-pub fn load_data() {
+pub fn load_data() -> String {
     let file = get_file().unwrap().to_string();
-    let file_contents = fs::read_to_string(file).expect("Couldn't read file");
-    todo!()
+    fs::read_to_string(file).expect("Couldn't read file")
 }

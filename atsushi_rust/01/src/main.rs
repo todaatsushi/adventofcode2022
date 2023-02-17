@@ -1,5 +1,5 @@
 use day_1::load_data;
 
 fn main() {
-    load_data();
+    let data = load_data();
 }
