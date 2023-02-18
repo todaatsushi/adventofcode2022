@@ -1,4 +1,4 @@
-use day_2::part_1;
+use day_2::part_1::part_1;
 
 fn main() {
     let p1_total = part_1();
