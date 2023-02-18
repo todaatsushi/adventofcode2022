@@ -1,3 +1,6 @@
+use day_2::part_1;
+
 fn main() {
-    println!("Hello, world!");
+    let p1_total = part_1();
+    println!("Part 1 answer: {}", p1_total);
 }
