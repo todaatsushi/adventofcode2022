@@ -21,28 +21,27 @@ fn get_repeated_items_in_bags(bags: String) -> Vec<char> {
         .collect()
 }
 
-fn get_score(c: char) -> u8 {
+fn get_score(c: char) -> u16 {
     static ASCII_LOWER: [char; 26] = [
         'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
         's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
     ];
-    let modifier: u8;
+    let modifier: u16;
     if c.is_lowercase() {
-        modifier = 0;
+        modifier = 1;
     } else {
-        modifier = 26;
+        modifier = 27;
     }
     let c_lower: Vec<char> = c.to_lowercase().collect();
     let val = ASCII_LOWER
         .iter()
         .position(|&check| check == c_lower[0])
         .unwrap();
-    val as u8 + modifier
+    val as u16 + modifier
 }
 
-pub fn solve() -> u8 {
+pub fn solve() -> u16 {
     let content = input::read();
     let common = get_repeated_items_in_bags(content);
-
     common.iter().map(|&c| get_score(c)).sum()
 }
