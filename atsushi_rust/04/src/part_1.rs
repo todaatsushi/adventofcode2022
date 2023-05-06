@@ -1,47 +1,29 @@
 use crate::inputs;
 
-fn get_zones(elf_zones: &str) -> [u16; 2] {
-    let mut res: [u16; 2] = [0, 0];
-    let vals = elf_zones
-        .split_once("-")
-        .expect("Zones not separated by '-'");
-
-    res[0] = vals.0.parse().unwrap();
-    res[1] = vals.1.parse().unwrap();
-    res
-}
-
 pub fn solve() {
     let pairs = inputs::read();
 
     let mut count: u16 = 0;
 
     pairs.lines().into_iter().for_each(|pair| {
-        let (elf_1, elf_2) = pair
-            .split_once(",")
-            .expect("Bad line: couldn't discern pair zones.");
+        let mut parts: Vec<u16> = pair
+            .split([',', '-'].as_ref())
+            .collect::<Vec<&str>>()
+            .into_iter()
+            .map(|v| v.parse().unwrap())
+            .collect();
 
-        let elf_1_zones = get_zones(elf_1);
-        let elf_2_zones = get_zones(elf_2);
+        let elf_1: [u16; 2] = [parts[0], parts[1]];
+        let elf_2: [u16; 2] = [parts[2], parts[3]];
+        parts.sort();
 
-        let mut all_zones: [u16; 4] = [
-            elf_2_zones[0],
-            elf_2_zones[1],
-            elf_1_zones[0],
-            elf_1_zones[1],
-        ];
+        let match_1 = parts[0] == elf_1[0] && parts[3] == elf_1[1];
+        let match_2 = parts[0] == elf_2[0] && parts[3] == elf_2[1];
 
-        all_zones.sort();
-        let min = all_zones[0];
-        let max = all_zones[3];
-
-        let elf_zones_1_match = min == elf_1_zones[0] && max == elf_1_zones[1];
-        let elf_zones_2_match = min == elf_2_zones[0] && max == elf_2_zones[1];
-
-        if elf_zones_1_match || elf_zones_2_match {
+        if match_1 || match_2 {
             count += 1;
         }
     });
 
-    println!("Total overlapping pairs: {}", count);
+    println!("Total completely overlapping pairs: {}", count);
 }
