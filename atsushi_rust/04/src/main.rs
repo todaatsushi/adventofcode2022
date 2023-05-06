@@ -1,7 +1,5 @@
-use day_4::inputs;
+use day_4::part_1;
 
 fn main() {
-    let f = inputs::read();
-
-    f.lines().into_iter().for_each(|l| println!("{:?}", l));
+    part_1::solve();
 }
