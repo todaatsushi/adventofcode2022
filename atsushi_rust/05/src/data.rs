@@ -31,6 +31,9 @@ pub fn create_stacks(input: &str) -> Vec<LinkedList<char>> {
         .into_iter()
         .map(str::as_bytes)
         .for_each(|line| {
+            if line[1] == 49 {
+                return;
+            }
             for c in (0..line.len()).step_by(4) {
                 let idx = c + 1;
                 let val = line[idx] as char;
@@ -41,7 +44,7 @@ pub fn create_stacks(input: &str) -> Vec<LinkedList<char>> {
                 }
 
                 if line[idx] != 32 {
-                    stacks[stack_num].push_back(val);
+                    stacks[stack_num].push_front(val);
                 }
             }
         });
