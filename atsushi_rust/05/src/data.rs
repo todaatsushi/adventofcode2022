@@ -1,8 +1,8 @@
-use std::{collections::LinkedList, str::FromStr, string::ParseError};
+use std::{str::FromStr, string::ParseError};
 
 #[derive(Debug)]
 pub struct Instruction {
-    pub n: u16,
+    pub n: usize,
     pub from: usize,
     pub to: usize,
 }
@@ -24,8 +24,8 @@ impl FromStr for Instruction {
     }
 }
 
-pub fn create_stacks(input: &str) -> Vec<LinkedList<char>> {
-    let mut stacks: Vec<LinkedList<char>> = vec![];
+pub fn create_stacks(input: &str) -> Vec<Vec<char>> {
+    let mut stacks: Vec<Vec<char>> = vec![];
     input
         .split("\n")
         .into_iter()
@@ -40,11 +40,11 @@ pub fn create_stacks(input: &str) -> Vec<LinkedList<char>> {
                 let stack_num = (c + 1) / 4;
 
                 if stacks.len() < stack_num + 1 {
-                    stacks.push(LinkedList::from([]));
+                    stacks.push(vec![]);
                 }
 
                 if line[idx] != 32 {
-                    stacks[stack_num].push_front(val);
+                    stacks[stack_num].push(val);
                 }
             }
         });

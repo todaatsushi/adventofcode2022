@@ -1,4 +1,4 @@
-use std::{collections::LinkedList, env, fs};
+use std::{env, fs};
 
 use crate::data::{create_stacks, Instruction};
 
@@ -24,7 +24,7 @@ fn get_file() -> Result<&'static str, InputError> {
     }
 }
 
-pub fn read() -> (Vec<LinkedList<char>>, Vec<Instruction>) {
+pub fn read() -> (Vec<Vec<char>>, Vec<Instruction>) {
     let filename = get_file().expect("Couldn't fetch the correct file to use.");
     let content = fs::read_to_string(filename).expect("Couldn't read the file");
 
