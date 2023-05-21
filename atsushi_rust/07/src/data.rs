@@ -12,7 +12,6 @@ pub enum Type {
 pub struct SysObj<'a> {
     pub name: &'a str,
     pub obj_type: Type,
-    pub size: u16,
     pub children: Box<HashMap<&'a str, &'a SysObj<'a>>>,
     pub parent: Box<Option<&'a SysObj<'a>>>,
 }
